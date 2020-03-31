@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+        html {
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <title></title>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.1.219/styles/kendo.default-v2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kendo.cdn.telerik.com/2020.1.219/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://kendo.cdn.telerik.com/2020.1.219/js/kendo.all.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+
+</head>
+
+<body>
+    <style>
+        .shadow {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) !important;
+            border-radius: 5px;
+        }
+
+        .k-item.k-state-selected {
+
+            background-color: transparent !important;
+        }
+
+        .k-list>.k-item-hover {
+
+            background-color: transparent !important;
+        }
+
+
+        .k-item.k-state-hover {
+
+            background-color: transparent !important;
+        }
+
+        .k-list .k-item,
+        .k-list-optionlabel>.k-item-hover {
+
+            background-color: transparent !important;
+        }
+
+        .k-list .k-item.k-state-focused {
+            box-shadow: none;
+        }
+
+        .k-treeview .k-in.k-state-selected {
+            color: black;
+            background-color: transparent !important;
+        }
+
+        .k-treeview .k-in.k-state-hover {
+
+            background-color: transparent !important;
+        }
+
+        .k-treeview .k-in.k-item.k-state-focused {
+            box-shadow: none;
+        }
+
+        .k-treeview .k-in.k-state-focused {
+            box-shadow: none;
+        }
+
+
+        .thy-row {
+            margin: 2px 1vw;
+            padding: 10px 25px 0px 40px;
+            background-color: white;
+        }
+
+        .search input[type=text] {
+            padding: 5px;
+            font-size: 12px;
+            border: 1px solid grey;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            float: left;
+            width: 80%;
+            background: white;
+        }
+
+        .search button {
+            float: left;
+            width: 20%;
+            padding: 5px;
+            background: #C90019;
+            color: white;
+            font-size: 12px;
+            border: 1px solid #C90019;
+            border-left: none;
+            cursor: pointer;
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .search button:hover {
+            background: #0b7dda;
+        }
+
+        .search::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+
+
+        /* vustom scrollbar ligth theme*/
+        /* width */
+        .customlightscrollbar::-webkit-scrollbar {
+            width: 8px;
+
+        }
+
+        /* Track */
+        .customlightscrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Handle */
+        .customlightscrollbar::-webkit-scrollbar-thumb {
+            background: #c2c2c2;
+            border-radius: 50px;
+        }
+
+        /* Handle on hover */
+        .customlightscrollbar::-webkit-scrollbar-thumb:hover {
+            background: #aeaeae;
+        }
+
+        .data-input-list-item {
+            width: 100%;
+            background-color: #f5f5f5;
+            border: 1px solid rgba(0, 0, 0, .08);
+            margin-top: 3px;
+            margin-bottom: 3px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .data-input-list-item>.circle {
+            border: 1px solid red;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            text-align: center;
+            background: #ffebee;
+            display: inline-block;
+        }
+
+        .data-input-list-item>.circle-passive {
+            border: 1px solid silver;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            text-align: center;
+            background: #ffebee;
+            display: inline-block;
+        }
+
+        .data-input-list-item>.circle>.attrfirstchar {
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+            color: red;
+        }
+
+        .data-input-list-item>.circle-passive>.attrfirstchar-passive {
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+            color: silver;
+        }
+
+        .data-input-list-item>.attrname {
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+            color: black;
+            margin-left: 5px;
+        }
+
+        .data-input-list-item>.attrname-passive {
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+            color: silver;
+            margin-left: 5px;
+        }
+
+        .tabdiv {
+            height: 380;
+            padding: 0px !important;
+        }
+
+        .form-input {
+            line-height: 1.65em;
+            padding: .17857143em 0;
+            text-indent: .571em;
+            margin: 0;
+            display: block;
+            width: 100%;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #e2e5ec;
+            border-radius: 4px;
+            -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+        }
+
+        .listdefinitionsearchinput {
+            border: 0.8px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 5px 30px 5px 10px;
+            margin-top: 3px;
+        }
+
+        .listdefinitionsearchicon {
+            position: absolute;
+            margin-top: 5px;
+            margin-left: -30px;
+            font-size: 20px;
+            color: #c2c2c2;
+
+        }
+
+        .listdefinitionlistboxleft {
+            width: 235%;
+            height: 500px;
+        }
+
+        .listdefinitionlistboxright {
+            width: 500px;
+            height: 240px;
+            margin-left: 5px;
+
+        }
+
+        .listdefinitionlistboxleft .k-selectable {
+            width: 40%;
+            border-radius: 5px;
+        }
+
+        .listdefinitionlistboxright .k-selectable {
+            border-radius: 5px;
+        }
+
+        .listDefinitionsearchdiv {
+            width: 40%;
+            text-align: center;
+        }
+
+        .listroutelistboxleft {
+            width: 500px;
+            height: 300px;
+        }
+
+        .listroutelistboxright {
+            width: 500px;
+            height: 300px;
+            margin-left: 5px;
+
+        }
+
+        .listroutelistboxleft .k-selectable {
+            border-radius: 5px;
+        }
+
+        .listroutelistboxright .k-selectable {
+            border-radius: 5px;
+        }
+
+        .k-listbox-toolbar .k-reset li a span {
+            color: rgb(201, 0, 25);
+        }
+
+        .inputname {
+            padding: .29em .29em .29em .9em;
+            width: 100%;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+        }
+
+        .fontdownrate {
+            margin-right: -1rem;
+            margin-left: -1rem;
+            color: #FFFFFF;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .divdownrate {
+            margin-left: 1.5rem;
+            border-radius: 5px;
+            width: auto;
+            background-color: #FF0013;
+        }
+
+        .fontdownbankname {
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .imgdownbank {
+            width: 25px;
+            border-radius: 50%;
+            border: 1px solid #E6E4D9;
+        }
+
+        .outherdivdownbank {
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            margin-top: 4px;
+            margin-right: 0.5rem;
+            width: 20%;
+        }
+
+        .innerdivdownbank {
+            padding: 3px 0px 3px 0px;
+            margin-left: -1rem;
+        }
+    </style>
+
+
+    <div id="example">
+
+        <div class="row" style="width: 100%;">
+            <div class="col-md-3" style="margin-top: 0.5rem;">
+                <div id="leftcontainer"></div>
+            </div>
+            <div class="col-md-9">
+                <div
+                    style="background-color: #FF0013;border-radius: 5px;margin-top: 0.5rem;padding-right: 0px;margin-left: -1.5rem;margin-bottom: 1rem;">
+                    <div class="row" style="margin-left: 2rem;">
+                        <div class="col-md-2" style="width: 18%;margin-left: -3rem;">
+                            <span style="color: #FDFDFD ;">Puanı Düşenler</span>
+                            <img style="margin-left: 0.5rem;" src="../images/beyazeksi.svg" />
+                        </div>
+
+                        <div class="col-md-10">
+                            <div class="row" id="downRateBankDiv">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-md-3 shadow" style="background-color: white;margin-right: 1rem;width: 23%;">
+                            <div style="margin-top: 5%;">
+                                <span style="color: #495049;font-size: 18px;;opacity: 1;font-family: Regular,Montserrat;">Median</span>
+                            </div>
+                            <div style="margin-top: 10%">
+                                <span style="color: #495049;font-size: 44px;;opacity: 1;font-family: Regular,Montserrat;">368</span>
+                                <span style="color: #495049;font-size: 18px;opacity: 1;font-family: Regular,Montserrat;">K</span>
+                                <div style="margin-top: -1.5rem;">
+                                    <span style="color: #495049;font-size: 10px;opacity: 1;font-family: Regular,Montserrat;">368.342</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 2%;margin-bottom: 3%;background-color: #E6E4D9;border-radius: 5px;">
+                                <div style="padding: 0.5rem;padding-right: 1rem;">
+                                    <span style="color:#303030;font-size: 11px;opacity: 1;font-family: Light,Montserrat;">Eşik Değer</span>
+                                    <span style="color:#495049;font-size: 18px;opacity: 1;float: right;font: bold;font-family: Regular,Montserrat;">999 K</span>
+                                </div>
+                                
+                            </div>
+                            
+
+                        </div>
+                        <div class="col-md-3 shadow" style="background-color: white;margin-right: 1rem;width: 23%;">
+                            <div style="margin-top: 5%;">
+                                <span style="color: #495049;font-size: 18px;;opacity: 1;font-family: Regular,Montserrat;">Median</span>
+                            </div>
+                            <div style="margin-top: 10%">
+                                <span style="color: #495049;font-size: 44px;;opacity: 1;font-family: Regular,Montserrat;">368</span>
+                                <span style="color: #495049;font-size: 18px;opacity: 1;font-family: Regular,Montserrat;">K</span>
+                                <div style="margin-top: -1.5rem;">
+                                    <span style="color: #495049;font-size: 10px;opacity: 1;font-family: Regular,Montserrat;">368.342</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 2%;margin-bottom: 3%;background-color: #E6E4D9;border-radius: 5px;">
+                                <div style="padding: 0.5rem;padding-right: 1rem;">
+                                    <span style="color:#303030;font-size: 11px;opacity: 1;font-family: Light,Montserrat;">Eşik Değer</span>
+                                    <span style="color:#495049;font-size: 18px;opacity: 1;float: right;font: bold;font-family: Regular,Montserrat;">999 K</span>
+                                </div>
+                                
+                            </div>
+                            
+
+                        </div>
+                        <div class="col-md-3 shadow" style="background-color: white;margin-right: 1rem;width: 23%;">
+                            <div style="margin-top: 5%;">
+                                <span style="color: #495049;font-size: 18px;;opacity: 1;font-family: Regular,Montserrat;">Median</span>
+                            </div>
+                            <div style="margin-top: 10%">
+                                <span style="color: #495049;font-size: 44px;;opacity: 1;font-family: Regular,Montserrat;">368</span>
+                                <span style="color: #495049;font-size: 18px;opacity: 1;font-family: Regular,Montserrat;">K</span>
+                                <div style="margin-top: -1.5rem;">
+                                    <span style="color: #495049;font-size: 10px;opacity: 1;font-family: Regular,Montserrat;">368.342</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 2%;margin-bottom: 3%;background-color: #E6E4D9;border-radius: 5px;">
+                                <div style="padding: 0.5rem;padding-right: 1rem;">
+                                    <span style="color:#303030;font-size: 11px;opacity: 1;font-family: Light,Montserrat;">Eşik Değer</span>
+                                    <span style="color:#495049;font-size: 18px;opacity: 1;float: right;font: bold;font-family: Regular,Montserrat;">999 K</span>
+                                </div>
+                                
+                            </div>
+                            
+
+                        </div>
+                        <div class="col-md-3 shadow" style="background-color: white;margin-right: 1rem;width: 23%;">
+                            <div style="margin-top: 5%;">
+                                <span style="color: #495049;font-size: 18px;;opacity: 1;font-family: Regular,Montserrat;">Median</span>
+                            </div>
+                            <div style="margin-top: 10%">
+                                <span style="color: #495049;font-size: 44px;;opacity: 1;font-family: Regular,Montserrat;">368</span>
+                                <span style="color: #495049;font-size: 18px;opacity: 1;font-family: Regular,Montserrat;">K</span>
+                                <div style="margin-top: -1.5rem;">
+                                    <span style="color: #495049;font-size: 10px;opacity: 1;font-family: Regular,Montserrat;">368.342</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 2%;margin-bottom: 3%;background-color: #E6E4D9;border-radius: 5px;">
+                                <div style="padding: 0.5rem;padding-right: 1rem;">
+                                    <span style="color:#303030;font-size: 11px;opacity: 1;font-family: Light,Montserrat;">Eşik Değer</span>
+                                    <span style="color:#495049;font-size: 18px;opacity: 1;float: right;font: bold;font-family: Regular,Montserrat;">999 K</span>
+                                </div>
+                                
+                            </div>
+                            
+
+                        </div>
+                        
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            $('<div class="thy-row shadow">' +
+                '<div id="listitemsdiv"></div>' +
+                '</div>').appendTo($('#leftcontainer').last());
+
+
+
+
+            var treewiewHtml = '<div class="demo-section k-content"><div id="treeview-left"></div></div>';
+
+
+            //var kendoTemplate = kendo.template('# var newFirstChar = ""; var newName=""; var attrCheckId = id; if (name != null){    var newFirstChar = name.substring(0, 1).toUpperCase();      var newNameArray=name.toLowerCase().trim().split(" ");   /* var newName=""; for (let i = 0; i<newNameArray.length;i++)    { newName += newNameArray[i].charAt(newNameArray[i]).toUpperCase() + newNameArray[i].slice(1)+" "; } newName.trim(); */var attrCheckId = id; } # <div class="data-input-list-item" id = "listdataitemdiv"">  <div class="circle"> <label class="attrfirstchar">#= newFirstChar #</label> </div> <label class="attrname"> #= newNameArray # </label> </div>');
+            var kendoTemplate = kendo.template(treewiewHtml);
+
+            var optional = {
+                dataTextField: "name",
+                dataValueField: "id",
+                template: kendoTemplate,
+                scrollable: "endless",
+                // draggable: { placeholder: customPlaceholder },
+                dropSources: ["selected"],
+                connectWith: "selected",
+                dataSource: {
+                    data: [
+                        { name: "deneme1", id: 1 }
+                    ],
+                    pageSize: 21
+                }
+
+            };
+
+            //$('<div id="listdefinition"></div>').appendTo($('#listitemsdiv').last());
+            $('<div class="row" style="margin-left: -40px;margin-right: -40px;"><div class="col-md-12"><div ><input type="text" id="searchBox" class="listdefinitionsearchinput" placeholder="Ara.. " style="outline:none;width:95%;" /><i class="fa fa-search listdefinitionsearchicon"></i></div><div id ="listboxdiv"></div></div></div>').appendTo($('#listitemsdiv').last());
+
+            $("<select>").appendTo($('#listboxdiv').last()).attr('id', 'optional').addClass("customlightscrollbar listdefinitionlistboxleft").css("padding-top", "5px").kendoListBox($.extend(true, {}, optional));
+
+            var listBoxOptionalSelectedArray = $('div[data-role="selectable"]');
+            for (let index = 0; index < listBoxOptionalSelectedArray.length; index++) {
+                $(listBoxOptionalSelectedArray[index]).addClass("customlightscrollbar");
+            }
+
+
+
+
+
+
+
+
+            $("#treeview-left").kendoTreeView({
+
+                template: kendo.template('<div style="width:155px;"><div class="col-md-8"><label>#= item.text #</label></div> <div class="col-md-2" style="float:right;"> # if (item.status == "down") { # <img src="../images/degereksi.svg"/> # } else if (item.status == "up") { # <img src="../images/degerarti.svg"/> # } # </div></div>'),
+                dataSource: [
+                    {
+                        text: "T_Customer", status: "up", items: [
+                            { text: "T_Customer_A", status: "up" },
+                            { text: "T_Customer_B", status: "down" },
+                            { text: "T_Customer_C", status: "up" }
+                        ]
+                    },
+                    {
+                        text: "T_Product", status: "down", items: [
+                            { text: "T_Product_A", status: "up" },
+                            { text: "T_Product_B", status: "down" }
+                        ]
+                    },
+                    {
+                        text: "T_Blink", status: "up", items: [
+                            { text: "T_Blink_A", status: "up" },
+                            { text: "T_Blink_B", status: "up" }
+                        ]
+                    },
+                    {
+                        text: "T_Test1", status: "down", items: [
+                            { text: "T_Test1_A", status: "down" },
+                            { text: "T_Test1_B", status: "down" }
+                        ]
+                    },
+                    {
+                        text: "T_Test2", status: "down", items: [
+                            { text: "T_Test2_A", status: "down" },
+                            { text: "T_Test2_B", status: "down" }
+                        ]
+                    }
+                ]
+            });
+
+            $('#searchBox').on("change keydown paste input", function (e) {
+                debugger
+                var treewiewData = $("#treeview-left").data("kendoTreeView");
+
+                var searchVal = $(this).val();
+                var filtersArray = [];
+
+                var filterItem = new Object();
+                filterItem.field = "text";
+                filterItem.operator = "contains";
+                filterItem.value = searchVal;
+                filterItem.ignoreCase = true;
+                filtersArray.push(filterItem);
+
+
+                treewiewData.dataSource.filter({
+                    logic: "or",
+                    filters: filtersArray
+                });
+
+            });
+
+
+
+
+            var downRateData = [
+                {
+                    bankName: "İş Bankası",
+                    bankIcon: "../images/1bankicon.jpg",
+                    bankRate: "%68"
+                },
+                {
+                    bankName: "Garanti Bankası",
+                    bankIcon: "../images/2bankicon.jpg",
+                    bankRate: "%50"
+                },
+                {
+                    bankName: "Ziraat Bankası",
+                    bankIcon: "../images/3bankicon.jpg",
+                    bankRate: "%40"
+                },
+                {
+                    bankName: "Ziraat Bankası",
+                    bankIcon: "../images/3bankicon.jpg",
+                    bankRate: "%40"
+                },
+                {
+                    bankName: "Ziraat Bankası",
+                    bankIcon: "../images/3bankicon.jpg",
+                    bankRate: "%40"
+                }
+            ];
+
+            var downRateData2 = [
+
+                {
+                    bankName: "Garanti Bankası",
+                    bankIcon: "../images/2bankicon.jpg",
+                    bankRate: "%50"
+                },
+                {
+                    bankName: "İş Bankası",
+                    bankIcon: "../images/1bankicon.jpg",
+                    bankRate: "%68"
+                },
+                {
+                    bankName: "Ziraat Bankası",
+                    bankIcon: "../images/3bankicon.jpg",
+                    bankRate: "%40"
+                },
+                {
+                    bankName: "Ziraat Bankası",
+                    bankIcon: "../images/3bankicon.jpg",
+                    bankRate: "%40"
+                },
+                {
+                    bankName: "Ziraat Bankası",
+                    bankIcon: "../images/3bankicon.jpg",
+                    bankRate: "%40"
+                }
+            ];
+
+
+
+            $.each(downRateData, function (index, element) {
+                debugger
+                var firstElement = '<div class="col-md-2 outherdivdownbank"';
+                if (index == 0) {
+                    firstElement += 'style="margin-left: -2.5rem;"';
+                }
+                firstElement += '>';
+                var downRateBankHtml = firstElement +
+                    '<div class="innerdivdownbank">' +
+                    '<div class="row">' +
+                    '<div class="col-md-1">' +
+                    '<img class="imgdownbank" src=' + element.bankIcon + ' />' +
+                    '</div>' +
+                    '<div class="col-md-8" style="margin-right: -3rem;">' +
+                    '<span class="fontdownbankname">' + element.bankName + '</span>' +
+                    '</div>' +
+                    '<div class="col-md-1 divdownrate">' +
+                    '<span class="fontdownrate">' + element.bankRate + '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+                $(downRateBankHtml).appendTo($('#downRateBankDiv').last());
+
+            })
+
+            $('.k-treeview').on('click', function (e) {
+
+                $("#downRateBankDiv").html('');
+                var data;
+                if (e.target.innerText == 'T_Blink_A')
+                    data = downRateData;
+                else
+                    data = downRateData2;
+
+                $.each(data, function (index, element) {
+                    debugger
+                    var firstElement = '<div class="col-md-2 outherdivdownbank"';
+                    if (index == 0) {
+                        firstElement += 'style="margin-left: -2.5rem;"';
+                    }
+                    firstElement += '>';
+                    var downRateBankHtml = firstElement +
+                        '<div class="innerdivdownbank">' +
+                        '<div class="row">' +
+                        '<div class="col-md-1">' +
+                        '<img class="imgdownbank" src=' + element.bankIcon + ' />' +
+                        '</div>' +
+                        '<div class="col-md-8" style="margin-right: -3rem;">' +
+                        '<span class="fontdownbankname">' + element.bankName + '</span>' +
+                        '</div>' +
+                        '<div class="col-md-1 divdownrate">' +
+                        '<span class="fontdownrate">' + element.bankRate + '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+
+                    $(downRateBankHtml).appendTo($('#downRateBankDiv').last());
+
+                })
+            });
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+//treewiew denemeeeee!!!!!!!!!!!!!!!
+
+
+
+
+
+    </script>
+    </div>
+</body>
+
+</html>
